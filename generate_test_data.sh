@@ -41,7 +41,7 @@ for f in $files ; do
     if [[ $fname =~ "zostoga" ]]; then
         lon_selector=""
         lat_selector=""
-        extra="-d lev ,,,8"
+#        extra="-d lev,,,8"
     fi
 
     cmd="ncks $extra $lat_selector $lon_selector -v $var_id $f $output_file"
