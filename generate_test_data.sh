@@ -3,8 +3,9 @@
 # Define all collections of files to copy to "small" local files
 
 Amon_files="/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_*.nc"
+zostoga_files="/badc/cmip5/data/cmip5/output1/INM/inmcm4/rcp45/mon/ocean/Omon/r1i1p1/latest/zostoga/zostoga_*.nc"
 
-
+#update this for the files being created
 files=$Amon_files
 #file_path=$(dirname "/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_*.nc")
 file_path=$(dirname $(printf $files))
