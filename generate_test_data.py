@@ -8,8 +8,9 @@ from glob import glob
 Amon_file_path = "/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas"
 zostoga_file_path = "/badc/cmip5/data/cmip5/output1/IPSL/IPSL-CM5A-MR/rcp45/mon/ocean/Omon/r1i1p1/latest/zostoga"
 cordex_IPSL_file_path = "/group_workspaces/jasmin2/cp4cds1/data/c3s-cordex/output/EUR-11/IPSL/MOHC-HadGEM2-ES/rcp85/r1i1p1/IPSL-WRF381P/v1/day/psl/v20190212"
+no_time_name = "/group_workspaces/jasmin2/cp4cds1/vol1/data/c3s-cmip5/output1/ICHEC/EC-EARTH/historical/day/atmos/day/r1i1p1/tas/v20131231"
 
-fpath = zostoga_file_path
+fpath = no_time_name
 filelist = glob(f'{fpath}/*.nc')
 output_path = f"test_data{fpath}"
 
