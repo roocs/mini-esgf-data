@@ -13,9 +13,11 @@ CMIP6_siconc = (
     "/badc/cmip6/data/CMIP6/CMIP/NCAR/CESM2/historical/r1i1p1f1/SImon/siconc/gn/latest"
 )
 cmip5_tas = "/badc/cmip5/data/cmip5/output1/NCAR/CCSM4/historical/mon/atmos/Amon/r1i1p1/latest/tas"
+day_data = "/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp45/day/land/day/r1i1p1/latest/mrsos"
 
-fpath = cmip5_tas
-filelist = glob(f"{fpath}/*.nc")
+
+fpath = day_data
+filelist = glob(f'{fpath}/*.nc')
 output_path = f"test_data{fpath}"
 
 for file in filelist:
