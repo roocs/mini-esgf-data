@@ -17,7 +17,7 @@ day_data = "/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp45/day/land/day/r1
 
 
 fpath = day_data
-filelist = glob(f'{fpath}/*.nc')
+filelist = glob(f"{fpath}/*.nc")
 output_path = f"test_data{fpath}"
 
 for file in filelist:
