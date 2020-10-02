@@ -11,8 +11,10 @@ cordex_IPSL_file_path = "/group_workspaces/jasmin2/cp4cds1/data/c3s-cordex/outpu
 no_time_name = "/group_workspaces/jasmin2/cp4cds1/vol1/data/c3s-cmip5/output1/ICHEC/EC-EARTH/historical/day/atmos/day/r1i1p1/tas/v20131231"
 CMIP6_siconc = "/badc/cmip6/data/CMIP6/CMIP/NCAR/CESM2/historical/r1i1p1f1/SImon/siconc/gn/latest"
 cmip5_tas = "/badc/cmip5/data/cmip5/output1/NCAR/CCSM4/historical/mon/atmos/Amon/r1i1p1/latest/tas"
+plevs_file_path = "/badc/cmip6/data/CMIP6/CMIP/NOAA-GFDL/GFDL-ESM4/historical/r1i1p1f1/Amon/o3/gr1/v20190726"
 
-fpath = cmip5_tas
+
+fpath = plevs_file_path
 filelist = glob(f'{fpath}/*.nc')
 output_path = f"test_data{fpath}"
 
@@ -47,3 +49,8 @@ for file in filelist:
     cmd = f"ncks {extra} {lat_selector} {lon_selector} --variable {var_id} {path} {output_file}"
     print("running", cmd)
     subprocess.call(cmd, shell=True)
+
+    if var_id in ['o3']:
+       # Only create one file for datasets where we don't need more
+        break
+
