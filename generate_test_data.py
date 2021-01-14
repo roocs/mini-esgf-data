@@ -18,8 +18,9 @@ day_data = "/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp45/day/land/day/r1
 cmip6_Cl = "/badc/cmip6/data/CMIP6/CMIP/NCAR/CESM2/amip/r1i1p1f1/Amon/cl/gn/v20190319"
 cmip6_Cl_2 = "/badc/cmip6/data/CMIP6/CMIP/NCAR/CESM2/amip/r3i1p1f1/Amon/cl/gn/v20190319"
 c3s_cmip6 = "/badc/cmip6/data/CMIP6/CMIP/IPSL/IPSL-CM6A-LR/historical/r1i1p1f1/Amon/rlds/gr/v20180803"
+time_invariant = "/badc/cmip6/data/CMIP6/ScenarioMIP/IPSL/IPSL-CM6A-LR/ssp119/r1i1p1f1/fx/mrsofc/gr/v20190410"
 
-fpath = c3s_cmip6
+fpath = time_invariant
 filelist = glob(f"{fpath}/*.nc")
 
 output_path = f"test_data{fpath}"
