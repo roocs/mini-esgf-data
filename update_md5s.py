@@ -1,6 +1,9 @@
 import os
+from pathlib import Path
 
 from xarray.tutorial import file_md5_checksum
+
+_default_cache_dir = Path.home() / ".mini-esgf-data"
 
 
 def main():
