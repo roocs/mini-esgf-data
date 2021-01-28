@@ -19,21 +19,28 @@ cmip6_Cl = "/badc/cmip6/data/CMIP6/CMIP/NCAR/CESM2/amip/r1i1p1f1/Amon/cl/gn/v201
 cmip6_Cl_2 = "/badc/cmip6/data/CMIP6/CMIP/NCAR/CESM2/amip/r3i1p1f1/Amon/cl/gn/v20190319"
 c3s_cmip6 = "/badc/cmip6/data/CMIP6/CMIP/IPSL/IPSL-CM6A-LR/historical/r1i1p1f1/Amon/rlds/gr/v20180803"
 time_invariant = "/badc/cmip6/data/CMIP6/ScenarioMIP/IPSL/IPSL-CM6A-LR/ssp119/r1i1p1f1/fx/mrsofc/gr/v20190410"
+cmip6_ta = "/badc/cmip6/data/CMIP6/ScenarioMIP/MIROC/MIROC6/ssp119/r1i1p1f1/Amon/ta/gn/files/d20190807"
 
 fpath = time_invariant
 filelist = glob(f"{fpath}/*.nc")
+filelist = [cmip6_o3]
 
 output_path = f"test_data{fpath}"
+step = 100
+step = 45
+
 
 for file in filelist:
-    path = f"{file}"
+
     f = file.split("/")[-1]
     var_id = f.split("_")[0]
     output_file = f"test_data{file}"
+
     if not os.path.exists(output_file):
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
-    lat_selector = "-d lat,,,100"
-    lon_selector = "-d lon,,,100"
+
+    lat_selector = f"-d lat,,,{step}"
+    lon_selector = f"-d lon,,,{step}"
 
     extra = ""
 
@@ -53,11 +60,11 @@ for file in filelist:
         lat_selector = ""
         extra = "-d ni,,,100 -d nj,,,100"
 
-    cmd = f"ncks {extra} {lat_selector} {lon_selector} --variable {var_id} {path} {output_file}"
+    cmd = f"ncks {extra} {lat_selector} {lon_selector} --variable {var_id} {file} {output_file}"
     print("running", cmd)
     subprocess.call(cmd, shell=True)
 
-    if var_id in ['o3']:
+    if var_id in ['o3', 'ta']:
        # Only create one file for datasets where we don't need more
         break
 
