@@ -21,9 +21,8 @@ c3s_cmip6 = "/badc/cmip6/data/CMIP6/CMIP/IPSL/IPSL-CM6A-LR/historical/r1i1p1f1/A
 time_invariant = "/badc/cmip6/data/CMIP6/ScenarioMIP/IPSL/IPSL-CM6A-LR/ssp119/r1i1p1f1/fx/mrsofc/gr/v20190410"
 cmip6_ta = "/badc/cmip6/data/CMIP6/ScenarioMIP/MIROC/MIROC6/ssp119/r1i1p1f1/Amon/ta/gn/files/d20190807"
 
-fpath = time_invariant
+fpath = cmip6_ta
 filelist = glob(f"{fpath}/*.nc")
-filelist = [cmip6_o3]
 
 output_path = f"test_data{fpath}"
 step = 100
