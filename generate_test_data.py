@@ -20,8 +20,10 @@ cmip6_Cl_2 = "/badc/cmip6/data/CMIP6/CMIP/NCAR/CESM2/amip/r3i1p1f1/Amon/cl/gn/v2
 c3s_cmip6 = "/badc/cmip6/data/CMIP6/CMIP/IPSL/IPSL-CM6A-LR/historical/r1i1p1f1/Amon/rlds/gr/v20180803"
 time_invariant = "/badc/cmip6/data/CMIP6/ScenarioMIP/IPSL/IPSL-CM6A-LR/ssp119/r1i1p1f1/fx/mrsofc/gr/v20190410"
 cmip6_ta = "/badc/cmip6/data/CMIP6/ScenarioMIP/MIROC/MIROC6/ssp119/r1i1p1f1/Amon/ta/gn/files/d20190807"
+C3S_CMIP5_TSICE = "/gws/nopw/j04/cp4cds1_vol1/data/c3s-cmip5/output1/NCC/NorESM1-ME/rcp60/mon/seaIce/OImon" \
+                  "/r1i1p1/tsice/v20120614"
 
-fpath = cmip6_ta
+fpath = C3S_CMIP5_TSICE
 filelist = glob(f"{fpath}/*.nc")
 
 output_path = f"test_data{fpath}"
@@ -59,11 +61,16 @@ for file in filelist:
         lat_selector = ""
         extra = "-d ni,,,100 -d nj,,,100"
 
+    if "tsice" in file:
+        lon_selector = ""
+        lat_selector = ""
+        extra = f"-d i,,,{step} -d j,,,{step}"
+
     cmd = f"ncks {extra} {lat_selector} {lon_selector} --variable {var_id} {file} {output_file}"
     print("running", cmd)
     subprocess.call(cmd, shell=True)
 
-    if var_id in ['o3', 'ta']:
+    if var_id in ['o3', 'ta', 'tsice']:
        # Only create one file for datasets where we don't need more
         break
 
