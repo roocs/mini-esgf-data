@@ -22,13 +22,14 @@ time_invariant = "/badc/cmip6/data/CMIP6/ScenarioMIP/IPSL/IPSL-CM6A-LR/ssp119/r1
 cmip6_ta = "/badc/cmip6/data/CMIP6/ScenarioMIP/MIROC/MIROC6/ssp119/r1i1p1f1/Amon/ta/gn/files/d20190807"
 C3S_CMIP5_TSICE = "/gws/nopw/j04/cp4cds1_vol1/data/c3s-cmip5/output1/NCC/NorESM1-ME/rcp60/mon/seaIce/OImon" \
                   "/r1i1p1/tsice/v20120614"
+c3s_cmip6_inv_01032021 = "/badc/cmip6/data/CMIP6/ScenarioMIP/MOHC/HadGEM3-GC31-MM/ssp585/r1i1p1f3/day/tas/gn/v20200515"
 
-fpath = C3S_CMIP5_TSICE
+fpath = c3s_cmip6_inv_01032021
 filelist = glob(f"{fpath}/*.nc")
 
 output_path = f"test_data{fpath}"
 step = 100
-step = 45
+#step = 45
 
 
 for file in filelist:
@@ -70,7 +71,7 @@ for file in filelist:
     print("running", cmd)
     subprocess.call(cmd, shell=True)
 
-    if var_id in ['o3', 'ta', 'tsice']:
+    if var_id in ['o3', 'ta', 'tsice', 'tas']:
        # Only create one file for datasets where we don't need more
         break
 
