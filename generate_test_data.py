@@ -24,13 +24,14 @@ C3S_CMIP5_TSICE = "/gws/nopw/j04/cp4cds1_vol1/data/c3s-cmip5/output1/NCC/NorESM1
                   "/r1i1p1/tsice/v20120614"
 c3s_cmip6_inv_01032021_1 = "/badc/cmip6/data/CMIP6/CMIP/INM/INM-CM5-0/historical/r1i1p1f1/Amon/rlds/gr1/v20190610"
 c3s_cmip6_inv_01032021_2 = "/badc/cmip6/data/CMIP6/ScenarioMIP/INM/INM-CM5-0/ssp245/r1i1p1f1/Amon/rlds/gr1/v20190619"
+lat_lon_coords_only = "/badc/cmip6/data/CMIP6/CMIP/MPI-M/MPI-ESM1-2-LR/historical/r1i1p1f1/Omon/tos/gn/v20190710"
 
-fpath = c3s_cmip6_inv_01032021_2
+fpath = lat_lon_coords_only
 filelist = glob(f"{fpath}/*.nc")
 
 output_path = f"test_data{fpath}"
 step = 100
-#step = 45
+step = 45
 
 
 for file in filelist:
@@ -72,7 +73,7 @@ for file in filelist:
     print("running", cmd)
     subprocess.call(cmd, shell=True)
 
-    if var_id in ['o3', 'ta', 'tsice', 'tas']:
+    if var_id in ['o3', 'ta', 'tsice', 'tas', 'tos']:
        # Only create one file for datasets where we don't need more
         break
 
