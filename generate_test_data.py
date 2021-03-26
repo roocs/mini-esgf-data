@@ -105,7 +105,7 @@ def select_lat_lon(filelist, fpath, args):
         if "siconc" in file:
             lon_selector = ""
             lat_selector = ""
-            extra = "-d ni,,,100 -d nj,,,100"
+            extra = "-d i,,,100 -d j,,,100"
 
         if "tsice" in file:
             lon_selector = ""
