@@ -9,7 +9,7 @@ To run the script using the default settings:
 
     $ python generate_test_data.py --fpath /badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas
 
-``fpath`` must be included and is the path to the files to generate test data from.
+``fpath`` must be included and is the path to the files to generate test data from. It can also be a part of a filename, eg. ``tas/tas_Amon_MPI-ESM-LR_199001-199912``
 
 The default settings will generate a test file for each file it finds at ``fpath``, covering all time steps and selecting every 100th latitude and longitude.
 
@@ -25,6 +25,12 @@ Other settings to use on the command line are:
 
 ``--number``
     The number of test files to generate. e.g. 1 will only generate one test file. The default is to create a test version of all available files. All files generated with this flag will use the value of ``step`` to select latitude and longtiude. Only relevant when not using the ``time_only`` flag.
+
+``--level``
+    Specify an index up to which the vertical levels will be extracted. The default is to not extract vertical levels and leave the vertical axis intact.
+
+``--compress``
+    When set, the resulting file is compressed with deflate level 9.
 
 
 The path provided when calling the script along with the options specified will be recorded in file_paths_used.txt.

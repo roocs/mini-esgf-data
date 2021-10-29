@@ -2,7 +2,7 @@ import os
 import argparse
 import subprocess
 from glob import glob
-
+import hashlib
 
 def arg_parse():
     """
@@ -44,11 +44,36 @@ def arg_parse():
         help="Number of files to generate. Default is all files. Only relevant when time_only is False"
     )
 
+    parser.add_argument(
+        "-l",
+        "--level",
+        type=int,
+        default=-1,
+        help="Number of levels to extract, starting with index 0."
+    )
+
+    parser.add_argument(
+        "-c",
+        "--compress",
+        help="Compress the files.",
+        action="store_true"
+    )
 
     return parser.parse_args()
 
 
-def create_one_timestep(file):
+def md5(file):
+    #https://stackoverflow.com/questions/3431825/generating-an-md5-checksum-of-a-file
+    hash_md5 = hashlib.md5()
+    with open(file, "rb") as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hash_md5.update(chunk)
+    hashstr = hash_md5.hexdigest()
+    with open(file+".md5", "w") as f:
+        f.write(hashstr)
+
+
+def create_one_timestep(file, args):
 
     path_list = ['test_data', *file.split('/')[1:-1]]
 
@@ -63,12 +88,22 @@ def create_one_timestep(file):
     path_list.append(file_name)
     output_file = ('/').join(path_list)
 
+    lev_selector = ""
+    lev = args.level
+    if args.level>=0:
+        lev_selector = f"-d lev,0,{lev}"
+
+    compression = ""
+    if args.compress:
+        compression = f"-L 9"
+
     if not os.path.exists(output_file):
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
-    cmd = f"ncks -d time,0 --variable {var_id} {file} {output_file}"
+    cmd = f"ncks {compression} -d time,0 {lev_selector} --variable {var_id} {file} {output_file}"
     print("running", cmd)
-    subprocess.call(cmd, shell=True)        
+    subprocess.call(cmd, shell=True)
+    md5(output_file)
 
 
 def select_lat_lon(filelist, fpath, args):
@@ -88,6 +123,15 @@ def select_lat_lon(filelist, fpath, args):
 
         lat_selector = f"-d lat,,,{step}"
         lon_selector = f"-d lon,,,{step}"
+
+        lev_selector = ""
+        lev = args.level
+        if args.level>=0:
+            lev_selector = f"-d lev,0,{lev}"
+
+        compression = ""
+        if args.compress:
+            compression = f"-L 9"
 
         extra = ""
 
@@ -112,9 +156,10 @@ def select_lat_lon(filelist, fpath, args):
             lat_selector = ""
             extra = f"-d i,,,{step} -d j,,,{step}"
 
-        cmd = f"ncks {extra} {lat_selector} {lon_selector} --variable {var_id} {file} {output_file}"
+        cmd = f"ncks {compression} {extra} {lev_selector} {lat_selector} {lon_selector} --variable {var_id} {file} {output_file}"
         print("running", cmd)
         subprocess.call(cmd, shell=True)
+        md5(output_file)
 
         # count how many files have been generated
         n_files += 1
@@ -129,17 +174,23 @@ def main():
 
     fpath = args.fpath
 
-    with open("file_paths_used.txt", "a") as f:
-        f.write(f"\n{vars(args)}")
+    if os.path.exists(f"{fpath}"):
+        filelist = glob(f"{fpath}/*.nc")
+    elif os.path.exists(os.path.dirname(f"{fpath}")):
+        filelist = glob(f"{fpath}*.nc")
 
-    filelist = glob(f"{fpath}/*.nc")
+    if filelist == []:
+        raise Exception(f"No files found under {fpath}")
 
     if args.time_only:
         file = filelist[0]
-        create_one_timestep(file)
+        create_one_timestep(file, args)
 
     else:
         select_lat_lon(filelist, fpath, args)
+
+    with open("file_paths_used.txt", "a") as f:
+        f.write(f"\n{vars(args)}")
 
 
 if __name__ == "__main__":
