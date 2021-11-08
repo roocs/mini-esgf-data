@@ -36,3 +36,10 @@
 {'fpath': '/badc/cmip6/data/CMIP6/CMIP/NCAR/CESM2-FV2/historical/r1i1p1f1/Omon/tos/gn/v20191120/tos_Omon_CESM2-FV2_historical_r1i1p1f1_gn_200001', 'time_only': True, 'step': 100, 'number': 0, 'level': -1, 'compress': True}
 {'fpath': '/pool/data/CORDEX/data/cordex/output/EUR-22/GERICS/MPI-M-MPI-ESM-LR/rcp85/r1i1p1/GERICS-REMO2015/v1/mon/tas/v20191029/', 'time_only': True, 'step': 100, 'number': 0, 'level': -1, 'compress': True}
 {'fpath': '/pool/data/CORDEX/data/cordex/output/EUR-11/KNMI/MPI-M-MPI-ESM-LR/rcp85/r1i1p1/KNMI-RACMO22E/v1/mon/tas/v20190625/', 'time_only': True, 'step': 100, 'number': 0, 'level': -1, 'compress': True}
+{'fpath': '/badc/cmip6/data/CMIP6/DCPP/MOHC/HadGEM3-GC31-MM/dcppA-hindcast/s1960-r2i1p1f2/day/tasmin/gn/v20200417', 'time_only': True, 'step': 100, 'number': 0, 'level': -1, 'compress': False}
+{'fpath': '/badc/cmip6/data/CMIP6/DCPP/EC-Earth-Consortium/EC-Earth3/dcppA-hindcast/s1960-r6i2p1f1/Amon/tas/gr/v20200508', 'time_only': True, 'step': 100, 'number': 0, 'level': -1, 'compress': False}
+{'fpath': '/badc/cmip6/data/CMIP6/DCPP/EC-Earth-Consortium/EC-Earth3/dcppA-hindcast/s1961-r6i2p1f1/day/pr/gr/v20200508', 'time_only': True, 'step': 100, 'number': 0, 'level': -1, 'compress': False}
+{'fpath': '/badc/cmip6/data/CMIP6/DCPP/MPI-M/MPI-ESM1-2-HR/dcppA-hindcast/s1960-r10i1p1f1/Amon/tas/gn/v20200908', 'time_only': True, 'step': 100, 'number': 0, 'level': -1, 'compress': False}
+{'fpath': '/badc/cmip6/data/CMIP6/DCPP/MPI-M/MPI-ESM1-2-HR/dcppA-hindcast/s1960-r2i1p1f1/day/pr/gn/v20190929', 'time_only': True, 'step': 100, 'number': 0, 'level': -1, 'compress': False}
+{'fpath': '/badc/cmip6/data/CMIP6/DCPP/CMCC/CMCC-CM2-SR5/dcppA-hindcast/s1960-r10i1p1f1/Amon/pr/gn/v20210719', 'time_only': True, 'step': 100, 'number': 0, 'level': -1, 'compress': False}
+{'fpath': '/badc/cmip6/data/CMIP6/DCPP/CMCC/CMCC-CM2-SR5/dcppA-hindcast/s1960-r1i1p1f1/day/tas/gn/v20210806', 'time_only': True, 'step': 100, 'number': 0, 'level': -1, 'compress': False}
