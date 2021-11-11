@@ -107,10 +107,10 @@ def create_one_timestep(file, args):
 
 
 def select_lat_lon(filelist, fpath, args):
-
+    n_files = 0
     for file in filelist:
 
-        n_files = 0
+        
 
         step = args.step
 
