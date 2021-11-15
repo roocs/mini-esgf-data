@@ -43,3 +43,4 @@
 {'fpath': '/badc/cmip6/data/CMIP6/DCPP/MPI-M/MPI-ESM1-2-HR/dcppA-hindcast/s1960-r2i1p1f1/day/pr/gn/v20190929', 'time_only': False, 'step': 100, 'number': 2, 'level': -1, 'compress': False}
 {'fpath': '/badc/cmip6/data/CMIP6/DCPP/CMCC/CMCC-CM2-SR5/dcppA-hindcast/s1960-r10i1p1f1/Amon/pr/gn/v20210719', 'time_only': False, 'step': 100, 'number': 2, 'level': -1, 'compress': False}
 {'fpath': '/badc/cmip6/data/CMIP6/DCPP/CMCC/CMCC-CM2-SR5/dcppA-hindcast/s1960-r1i1p1f1/day/tas/gn/v20210806', 'time_only': False, 'step': 100, 'number': 2, 'level': -1, 'compress': False}
+{'fpath': '/badc/cmip6/data/CMIP6/DCPP/EC-Earth-Consortium/EC-Earth3/dcppA-hindcast/s1960-r2i1p1f1/Amon/tas/gr/v20201215', 'time_only': False, 'step': 100, 'number': 2, 'level': -1, 'compress': False}
