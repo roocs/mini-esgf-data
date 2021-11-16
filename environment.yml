@@ -1,0 +1,7 @@
+name: mini-esgf-data
+channels:
+  - conda-forge
+dependencies:
+  - python=3
+  - pip
+  - nco
