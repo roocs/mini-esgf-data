@@ -46,3 +46,5 @@
 {'fpath': '/badc/cmip6/data/CMIP6/DCPP/EC-Earth-Consortium/EC-Earth3/dcppA-hindcast/s1960-r2i1p1f1/Amon/tas/gr/v20201215', 'time_only': False, 'step': 100, 'number': 2, 'level': -1, 'compress': False}
 {'fpath': '/pool/data/CORDEX/data/cordex/output/AFR-22/GERICS/MPI-M-MPI-ESM-LR/historical/r1i1p1/GERICS-REMO2015/v1/day/tas/v20201015', 'time_only': False, 'step': 100, 'number': 0, 'level': -1, 'compress': False}
 {'fpath': '/pool/data/CORDEX/data/cordex/output/NAM-22/OURANOS/NOAA-GFDL-GFDL-ESM2M/rcp45/r1i1p1/OURANOS-CRCM5/v1/day/pr/v20200831', 'time_only': False, 'step': 100, 'number': 0, 'level': -1, 'compress': False}
+
+{'fpath': '/pool/data/CORDEX/data/cordex/output/EUR-11/IPSL/IPSL-IPSL-CM5A-MR/rcp85/r1i1p1/IPSL-WRF381P/v1/day/zg500/v20190919', 'time_only': False, 'step': 100, 'number': 0, 'level': -1, 'compress': False}
