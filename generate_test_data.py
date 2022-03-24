@@ -1,8 +1,9 @@
-import os
 import argparse
+import hashlib
+import os
 import subprocess
 from glob import glob
-import hashlib
+
 
 def arg_parse():
     """
@@ -17,7 +18,7 @@ def arg_parse():
         "--fpath",
         type=str,
         required=True,
-        help="Path to files to generate test data from e.g. /badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas"
+        help="Path to files to generate test data from e.g. /badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas",
     )
 
     parser.add_argument(
@@ -25,7 +26,7 @@ def arg_parse():
         "--time_only",
         default=False,
         help="Only generate one time step of this dataset",
-        action="store_true"
+        action="store_true",
     )
 
     parser.add_argument(
@@ -33,7 +34,7 @@ def arg_parse():
         "--step",
         type=int,
         default=100,
-        help="Step to select latitude/longitude by. Only relevant when time_only is False"
+        help="Step to select latitude/longitude by. Only relevant when time_only is False",
     )
 
     parser.add_argument(
@@ -41,7 +42,7 @@ def arg_parse():
         "--number",
         type=int,
         default=0,
-        help="Number of files to generate. Default is all files. Only relevant when time_only is False"
+        help="Number of files to generate. Default is all files. Only relevant when time_only is False",
     )
 
     parser.add_argument(
@@ -49,53 +50,50 @@ def arg_parse():
         "--level",
         type=int,
         default=-1,
-        help="Number of levels to extract, starting with index 0."
+        help="Number of levels to extract, starting with index 0.",
     )
 
     parser.add_argument(
-        "-c",
-        "--compress",
-        help="Compress the files.",
-        action="store_true"
+        "-c", "--compress", help="Compress the files.", action="store_true"
     )
 
     return parser.parse_args()
 
 
 def md5(file):
-    #https://stackoverflow.com/questions/3431825/generating-an-md5-checksum-of-a-file
+    # https://stackoverflow.com/questions/3431825/generating-an-md5-checksum-of-a-file
     hash_md5 = hashlib.md5()
     with open(file, "rb") as f:
         for chunk in iter(lambda: f.read(4096), b""):
             hash_md5.update(chunk)
     hashstr = hash_md5.hexdigest()
-    with open(file+".md5", "w") as f:
+    with open(file + ".md5", "w") as f:
         f.write(hashstr)
 
 
 def create_one_timestep(file, args):
 
-    path_list = ['test_data', *file.split('/')[1:-1]]
+    path_list = ["test_data", *file.split("/")[1:-1]]
 
     f = file.split("/")[-1]
     var_id = f.split("_")[0]
 
     fname = f.split("_")[:-1]
-    time = time = f.split("_")[-1].split('-')[0]
+    time = time = f.split("_")[-1].split("-")[0]
 
-    file_name = ('_').join([*fname, time]) + '.nc'
+    file_name = ("_").join([*fname, time]) + ".nc"
 
     path_list.append(file_name)
-    output_file = ('/').join(path_list)
+    output_file = ("/").join(path_list)
 
     lev_selector = ""
     lev = args.level
-    if args.level>=0:
+    if args.level >= 0:
         lev_selector = f"-d lev,0,{lev}"
 
     compression = ""
     if args.compress:
-        compression = f"-L 9"
+        compression = "-L 9"
 
     if not os.path.exists(output_file):
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
@@ -110,28 +108,27 @@ def select_lat_lon(filelist, fpath, args):
     n_files = 0
     for file in filelist:
 
-        
-
         step = args.step
 
         f = file.split("/")[-1]
         var_id = f.split("_")[0]
-        output_file = f"test_data{file}"
+        output_file = f"test_data/{file}"
 
         if not os.path.exists(output_file):
             os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
-        lat_selector = f"-d lat,,,{step}"
-        lon_selector = f"-d lon,,,{step}"
+        lat_lon_dims = [("lat", "lon"), ("y", "x"), ("j", "i"), ("rlat", "rlon")]
+        lat_selector = f"-d {lat_lon_dims[0][0]},,,{step}"
+        lon_selector = f"-d {lat_lon_dims[0][1]},,,{step}"
 
         lev_selector = ""
         lev = args.level
-        if args.level>=0:
+        if args.level >= 0:
             lev_selector = f"-d lev,0,{lev}"
 
         compression = ""
         if args.compress:
-            compression = f"-L 9"
+            compression = "-L 9"
 
         extra = ""
 
@@ -140,11 +137,6 @@ def select_lat_lon(filelist, fpath, args):
             lat_selector = ""
             if "inm" in file:
                 extra = "-d lev,,,8"
-
-        if "cordex" in file:
-            lon_selector = "-d rlat,,,100"
-            lat_selector = "-d rlon,,,100"
-            extra = ""
 
         if "siconc" in file:
             lon_selector = ""
@@ -156,15 +148,27 @@ def select_lat_lon(filelist, fpath, args):
             lat_selector = ""
             extra = f"-d i,,,{step} -d j,,,{step}"
 
-        cmd = f"ncks {compression} {extra} {lev_selector} {lat_selector} {lon_selector} --variable {var_id} {file} {output_file}"
-        print("running", cmd)
-        subprocess.call(cmd, shell=True)
+        for dimset in range(0, len(lat_lon_dims)):
+            cmd = f"ncks {compression} {extra} {lev_selector} {lat_selector} {lon_selector} --variable {var_id} {file} {output_file}"
+            print(f"running {['alternate command '+cmd if dimset > 0 else cmd][0]}")
+            subprocess.call(cmd, shell=True)
+            if os.path.isfile(output_file):
+                break
+            elif lat_selector == "" and lon_selector == "":
+                raise FileNotFoundError(
+                    f"Output file {output_file} could not be created."
+                )
+            else:
+                lat_selector = f"-d {lat_lon_dims[dimset+1][0]},,,{step}"
+                lon_selector = f"-d {lat_lon_dims[dimset+1][1]},,,{step}"
+
+        # Create md5-hash
         md5(output_file)
 
         # count how many files have been generated
         n_files += 1
 
-        #if the required number of files have been generated - stop
+        # if the required number of files have been generated - stop
         if args.number == n_files:
             break
 
@@ -174,7 +178,9 @@ def main():
 
     fpath = args.fpath
 
-    if os.path.exists(f"{fpath}"):
+    if os.path.isfile(fpath):
+        filelist = [fpath]
+    elif os.path.exists(f"{fpath}"):
         filelist = glob(f"{fpath}/*.nc")
     elif os.path.exists(os.path.dirname(f"{fpath}")):
         filelist = glob(f"{fpath}*.nc")
