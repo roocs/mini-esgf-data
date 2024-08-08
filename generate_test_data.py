@@ -57,6 +57,10 @@ def arg_parse():
         "-c", "--compress", help="Compress the files.", action="store_true"
     )
 
+    parser.add_argument(
+        "-r", "--reformat", help="Reformat to netCDF4-classic.", action="store_true"
+    )
+
     return parser.parse_args()
 
 
@@ -79,9 +83,18 @@ def create_one_timestep(file, args):
     var_id = f.split("_")[0]
 
     fname = f.split("_")[:-1]
-    time = time = f.split("_")[-1].split("-")[0]
 
-    file_name = ("_").join([*fname, time]) + ".nc"
+    if not "-" in f.split("_")[-1] and "fx_" in f:
+        time = ""
+        extra = ""
+        fname = f.split("_")
+        suffix=""
+    else:
+        time = f.split("_")[-1].split("-")[0]
+        extra = "-d time,0"
+        suffix = ".nc"
+
+    file_name = ("_").join([*fname, time]).rstrip("_") + suffix
 
     path_list.append(file_name)
     output_file = ("/").join(path_list)
@@ -95,10 +108,14 @@ def create_one_timestep(file, args):
     if args.compress:
         compression = "-L 9"
 
+    ncformat = ""
+    if args.reformat:
+        ncformat = "-7"
+
     if not os.path.exists(output_file):
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
-    cmd = f"ncks {compression} -d time,0 {lev_selector} --variable {var_id} {file} {output_file}"
+    cmd = f"ncks {ncformat} {compression} {extra} {lev_selector} --variable {var_id} {file} {output_file}"
     print("running", cmd)
     subprocess.call(cmd, shell=True)
     md5(output_file)
@@ -130,6 +147,10 @@ def select_lat_lon(filelist, fpath, args):
         if args.compress:
             compression = "-L 9"
 
+        ncformat = ""
+        if args.reformat:
+            ncformat = "-7"
+
         extra = ""
 
         if "zostoga" in file:
@@ -149,7 +170,7 @@ def select_lat_lon(filelist, fpath, args):
             extra = f"-d i,,,{step} -d j,,,{step}"
 
         for dimset in range(0, len(lat_lon_dims)):
-            cmd = f"ncks {compression} {extra} {lev_selector} {lat_selector} {lon_selector} --variable {var_id} {file} {output_file}"
+            cmd = f"ncks {ncformat} {compression} {extra} {lev_selector} {lat_selector} {lon_selector} --variable {var_id} {file} {output_file}"
             print(f"running {['alternate command '+cmd if dimset > 0 else cmd][0]}")
             subprocess.call(cmd, shell=True)
             if os.path.isfile(output_file):
