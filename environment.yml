@@ -2,6 +2,6 @@ name: mini-esgf-data
 channels:
   - conda-forge
 dependencies:
-  - python=3
-  - pip
+  - python >=3.9,<3.13
+  - pip >=24.2
   - nco

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import argparse
 import hashlib
 import os
@@ -77,7 +78,7 @@ def md5(file):
 
 def create_one_timestep(file, args):
 
-    path_list = ["test_data", *file.split("/")[1:-1]]
+    path_list = ["data", *file.split("/")[1:-1]]
 
     f = file.split("/")[-1]
     var_id = f.split("_")[0]
@@ -129,7 +130,7 @@ def select_lat_lon(filelist, fpath, args):
 
         f = file.split("/")[-1]
         var_id = f.split("_")[0]
-        output_file = f"test_data/{file}"
+        output_file = f"data/{file}"
 
         if not os.path.exists(output_file):
             os.makedirs(os.path.dirname(output_file), exist_ok=True)
